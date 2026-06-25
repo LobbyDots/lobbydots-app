@@ -1,0 +1,51 @@
+# dependencies
+node_modules/
+.pnpm-store/
+
+# build outputs
+dist/
+lib/
+build/
+*.tsbuildinfo
+
+# turbo
+.turbo/
+
+# expo
+apps/mobile/.expo/
+apps/mobile/dist/
+apps/mobile/web-build/
+*.orig.*
+apps/mobile/ios/
+apps/mobile/android/
+
+# native
+*.jks
+*.p8
+*.p12
+*.key
+*.mobileprovision
+
+# prisma
+apps/api/prisma/generated/
+
+# env / secrets
+.env
+.env.*
+!.env.example
+
+# supabase
+supabase/.temp/
+supabase/.branches/
+
+# logs
+*.log
+npm-debug.*
+yarn-debug.*
+yarn-error.*
+
+# OS / editor
+.DS_Store
+.idea/
+.vscode/*
+!.vscode/extensions.json

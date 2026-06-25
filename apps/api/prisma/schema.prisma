@@ -1,0 +1,142 @@
+// Prisma 7 (sin Rust). Fuente de verdad del DDL = supabase/migrations/*.sql.
+// Este esquema refleja esa migración; `prisma db pull` lo re-sincroniza desde
+// la DB cuando hay conexión. Campos camelCase mapeados a columnas snake_case.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum MemberStatus {
+  active
+  suspended
+
+  @@map("member_status")
+}
+
+enum RequestStatus {
+  open
+  matched
+  completed
+  closed
+
+  @@map("request_status")
+}
+
+enum IntroStatus {
+  proposed
+  approved
+  rejected
+  completed
+
+  @@map("intro_status")
+}
+
+model Member {
+  id               String       @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  authUserId       String?      @unique @map("auth_user_id") @db.Uuid
+  phoneE164        String       @unique @map("phone_e164")
+  phoneHash        String?      @map("phone_hash")
+  displayName      String       @map("display_name")
+  bio              String?
+  status           MemberStatus @default(active)
+  invitesRemaining Int          @default(3) @map("invites_remaining")
+  expoPushToken    String?      @map("expo_push_token")
+  pepperVersion    Int          @default(1) @map("pepper_version") @db.SmallInt
+  createdAt        DateTime     @default(now()) @map("created_at") @db.Timestamptz(6)
+
+  contacts        Contact[]
+  vouchesGiven    Vouch[]   @relation("VouchInviter")
+  vouchesReceived Vouch[]   @relation("VouchInvitee")
+  requests        Request[]
+  intros          Intro[]
+  invitesSent     Invite[]  @relation("InviteInviter")
+  invitesConsumed Invite[]  @relation("InviteConsumer")
+
+  @@index([phoneHash])
+  @@map("member")
+}
+
+model Contact {
+  id            String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  ownerMemberId String   @map("owner_member_id") @db.Uuid
+  phoneHash     String   @map("phone_hash")
+  displayName   String?  @map("display_name")
+  tags          String[] @default([])
+  tier          Int?     @db.SmallInt
+  pepperVersion Int      @default(1) @map("pepper_version") @db.SmallInt
+  createdAt     DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+
+  owner Member @relation(fields: [ownerMemberId], references: [id], onDelete: Cascade)
+
+  @@unique([ownerMemberId, phoneHash])
+  @@index([phoneHash])
+  @@index([ownerMemberId])
+  @@map("contact")
+}
+
+model Vouch {
+  id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  inviterId String   @map("inviter_id") @db.Uuid
+  inviteeId String   @map("invitee_id") @db.Uuid
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+
+  inviter Member @relation("VouchInviter", fields: [inviterId], references: [id], onDelete: Cascade)
+  invitee Member @relation("VouchInvitee", fields: [inviteeId], references: [id], onDelete: Cascade)
+
+  @@unique([inviterId, inviteeId])
+  @@index([inviterId])
+  @@index([inviteeId])
+  @@map("vouch")
+}
+
+model Request {
+  id              String        @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  requesterId     String        @map("requester_id") @db.Uuid
+  targetPhoneHash String?       @map("target_phone_hash")
+  targetDesc      String?       @map("target_desc")
+  status          RequestStatus @default(open)
+  createdAt       DateTime      @default(now()) @map("created_at") @db.Timestamptz(6)
+
+  requester Member  @relation(fields: [requesterId], references: [id], onDelete: Cascade)
+  intros    Intro[]
+
+  @@index([requesterId])
+  @@index([targetPhoneHash])
+  @@map("request")
+}
+
+model Intro {
+  id        String      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  requestId String      @map("request_id") @db.Uuid
+  brokerId  String      @map("broker_id") @db.Uuid
+  status    IntroStatus @default(proposed)
+  createdAt DateTime    @default(now()) @map("created_at") @db.Timestamptz(6)
+
+  request Request @relation(fields: [requestId], references: [id], onDelete: Cascade)
+  broker  Member  @relation(fields: [brokerId], references: [id], onDelete: Cascade)
+
+  @@index([requestId])
+  @@index([brokerId])
+  @@map("intro")
+}
+
+model Invite {
+  id               String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  inviterId        String   @map("inviter_id") @db.Uuid
+  tokenHash        String   @unique @map("token_hash")
+  inviteePhoneE164 String?  @map("invitee_phone_e164")
+  status           String   @default("pending")
+  expiresAt        DateTime @map("expires_at") @db.Timestamptz(6)
+  consumedBy       String?  @map("consumed_by") @db.Uuid
+  createdAt        DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+
+  inviter  Member  @relation("InviteInviter", fields: [inviterId], references: [id], onDelete: Cascade)
+  consumer Member? @relation("InviteConsumer", fields: [consumedBy], references: [id])
+
+  @@index([inviterId])
+  @@map("invite")
+}

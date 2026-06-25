@@ -1,0 +1,13 @@
+# Supabase config. El project_id se fija al hacer `supabase link --project-ref <ref>`.
+# Usamos proyectos HOSTED (dev/prod) — sin stack local (no Docker en este entorno).
+# El proveedor SMS (Twilio) para el OTP de teléfono se configura en el dashboard
+# de Supabase (Authentication → Providers → Phone), no aquí.
+project_id = "lobbydots-dev"
+
+[auth]
+enable_signup = true
+
+[auth.sms]
+enable_signup = true
+enable_confirmations = true
+# Proveedor real (Twilio) configurado en el dashboard del proyecto hosted.

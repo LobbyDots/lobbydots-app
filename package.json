@@ -1,0 +1,26 @@
+{
+  "name": "lobbydots",
+  "version": "0.0.0",
+  "private": true,
+  "packageManager": "pnpm@11.7.0",
+  "engines": {
+    "node": ">=24"
+  },
+  "scripts": {
+    "build": "turbo run build",
+    "typecheck": "turbo run typecheck",
+    "lint": "turbo run lint",
+    "test": "turbo run test",
+    "dev": "turbo run dev",
+    "format": "prettier --write \"**/*.{ts,tsx,js,json,md}\"",
+    "db:push": "supabase db push",
+    "db:types": "supabase gen types typescript --linked --schema public > packages/shared/src/types/database.types.ts"
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.0",
+    "prettier": "^3.4.2",
+    "supabase": "^2.107.0",
+    "turbo": "^2.5.0",
+    "typescript": "~5.7.3"
+  }
+}
