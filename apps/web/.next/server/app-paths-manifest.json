@@ -1,7 +1,0 @@
-{
-  "/dev-login/page": "app/dev-login/page.js",
-  "/otp/page": "app/otp/page.js",
-  "/home/page": "app/home/page.js",
-  "/page": "app/page.js",
-  "/intro/[id]/page": "app/intro/[id]/page.js"
-}

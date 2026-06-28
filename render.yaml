@@ -1,0 +1,32 @@
+# Blueprint de Render para el API (NestJS). En el dashboard:
+#   New + → Blueprint → conecta este repo → rellena los valores marcados (los
+#   copias de apps/api/.env) → Apply. La web va en Vercel (ver apps/web/vercel.json).
+services:
+  - type: web
+    name: lobbydots-api
+    runtime: node
+    plan: free
+    region: frankfurt
+    healthCheckPath: /health
+    buildCommand: corepack enable && pnpm install && pnpm --filter @lobbydots/shared build && pnpm --filter @lobbydots/api prisma:generate && pnpm --filter @lobbydots/api build
+    startCommand: pnpm --filter @lobbydots/api start
+    envVars:
+      - key: NODE_VERSION
+        value: "24"
+      # ↓ Copia los valores de apps/api/.env (no se guardan en el repo).
+      - key: DATABASE_URL
+        sync: false
+      - key: DIRECT_URL
+        sync: false
+      - key: SUPABASE_URL
+        sync: false
+      - key: SUPABASE_SECRET_KEY
+        sync: false
+      - key: SUPABASE_PUBLISHABLE_KEY
+        sync: false
+      - key: HASH_PEPPER
+        sync: false
+      - key: SUPABASE_PROJECT_REF
+        sync: false
+      - key: PUBLIC_APP_URL
+        sync: false

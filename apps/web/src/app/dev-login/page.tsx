@@ -23,7 +23,8 @@ export default function DevLogin() {
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  if (process.env.NODE_ENV === "production") {
+  // Visible en la demo por defecto; se oculta poniendo NEXT_PUBLIC_DEMO=0.
+  if (process.env.NEXT_PUBLIC_DEMO === "0") {
     if (typeof window !== "undefined") router.replace("/");
     return null;
   }

@@ -268,7 +268,7 @@ function HomeInner() {
       {/* Salir */}
       <div style={{ marginTop: spacing(6), marginBottom: spacing(4) }}>
         <LinkButton label="Salir" onClick={logout} color={colors.muted} />
-        {process.env.NODE_ENV !== "production" ? (
+        {process.env.NEXT_PUBLIC_DEMO !== "0" ? (
           <LinkButton label="· cambiar de cuenta (dev)" onClick={() => router.push("/dev-login")} />
         ) : null}
       </div>

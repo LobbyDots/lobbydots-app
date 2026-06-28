@@ -60,7 +60,7 @@ export default function Landing() {
         />
       </div>
 
-      {process.env.NODE_ENV !== "production" ? (
+      {process.env.NEXT_PUBLIC_DEMO !== "0" ? (
         <LinkButton label="· dev login" onClick={() => router.push("/dev-login")} />
       ) : null}
     </Screen>

@@ -8,6 +8,11 @@ lib/
 build/
 *.tsbuildinfo
 
+# next.js (web)
+apps/web/.next/
+apps/web/out/
+apps/web/.vercel/
+
 # turbo
 .turbo/
 
