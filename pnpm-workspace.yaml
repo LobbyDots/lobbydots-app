@@ -5,3 +5,6 @@ allowBuilds:
   '@prisma/engines': true
   esbuild: true
   prisma: true
+  # sharp: dep opcional de Next (optimización de imágenes). No usamos next/image
+  # en el MVP web → no se compila. Cambiar a true si se añade optimización.
+  sharp: false

@@ -1,0 +1,46 @@
+:root {
+  --ink: #1a1a18;
+  --charcoal: #3a3a37;
+  --muted: #8a8578;
+  --hairline: #e2ddd2;
+  --cream: #f4f1ea;
+  --paper: #fbfaf6;
+  --oxblood: #6b2b2b;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  background: var(--cream);
+  color: var(--charcoal);
+}
+
+body {
+  font-family: var(--font-sans), system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+}
+
+button:disabled {
+  cursor: default;
+}
+
+input,
+textarea {
+  font-family: inherit;
+}

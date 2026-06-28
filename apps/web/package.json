@@ -1,0 +1,27 @@
+{
+  "name": "@lobbydots/web",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev -p 3001",
+    "build": "next build",
+    "start": "next start -p 3001",
+    "typecheck": "tsc --noEmit",
+    "lint": "echo \"(web) lint vía next build\""
+  },
+  "dependencies": {
+    "@lobbydots/shared": "workspace:*",
+    "@supabase/supabase-js": "^2.108.0",
+    "@tanstack/react-query": "^5.100.0",
+    "next": "^15.1.0",
+    "react": "19.2.3",
+    "react-dom": "19.2.3",
+    "zod": "^3.24.1"
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.0",
+    "@types/react": "~19.2.2",
+    "@types/react-dom": "~19.2.0",
+    "typescript": "~5.7.3"
+  }
+}
