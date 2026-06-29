@@ -9,6 +9,7 @@
     "incremental": true,
     "allowJs": true,
     "plugins": [{ "name": "next" }],
+    "baseUrl": ".",
     "paths": { "@/*": ["./src/*"] }
   },
   "include": ["next-env.d.ts", "src", ".next/types/**/*.ts"],
