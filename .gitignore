@@ -4,7 +4,8 @@ node_modules/
 
 # build outputs
 dist/
-lib/
+# "lib/" sin anclar pisaba apps/web/src/lib (código fuente). Anclado a la raíz.
+/lib/
 build/
 *.tsbuildinfo
 
